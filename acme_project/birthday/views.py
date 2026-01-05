@@ -5,6 +5,16 @@ from .forms import BirthdayForm
 from .utils import calculate_birthday_countdown
 
 
+def delete_birthday(request, pk):
+    instance = get_object_or_404(Birthday, pk=pk)
+    form = BirthdayForm(instance=instance)
+    context = {'form': form}
+    if request.method == 'POST':
+        instance.delete()
+        return redirect('birthday:list')
+    return render(request, 'birthday/birthday.html', context)
+
+
 def edit_birthday(request, pk=None):
     if pk is not None:
         instance = get_object_or_404(Birthday, pk=pk)
