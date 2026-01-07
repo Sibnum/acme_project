@@ -1,4 +1,5 @@
 from django.db import models
+from .validators import real_age
 
 
 class Birthday(models.Model):
@@ -9,4 +10,4 @@ class Birthday(models.Model):
         help_text='Необязательное поле',
         max_length=20
     )
-    birthday = models.DateField('Дата рождения')
+    birthday = models.DateField('Дата рождения', validators=(real_age,))
