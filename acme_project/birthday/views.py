@@ -31,8 +31,16 @@ def edit_birthday(request, pk=None):
     return render(request, 'birthday/birthday.html', context)
 
 
-def birthday(request):
-    form = BirthdayForm(request.POST or None)
+def birthday(request, pk=None):
+    if pk is not None:
+        instance = get_object_or_404(Birthday, pk=pk)
+    else:
+        instance = None
+    form = BirthdayForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=instance
+    )
     context = {'form': form}
     if form.is_valid():
         form.save()
@@ -41,6 +49,7 @@ def birthday(request):
         )
         context.update({'birthday_countdown': birthday_countdown})
     return render(request, 'birthday/birthday.html', context)
+
 
 def birthday_list(request):
     birthdays = Birthday.objects.all()

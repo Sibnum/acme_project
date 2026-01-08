@@ -11,6 +11,7 @@ class Birthday(models.Model):
         max_length=20
     )
     birthday = models.DateField('Дата рождения', validators=(real_age,))
+    image = models.ImageField('Фото', upload_to='birthdays_images', blank=True)
 
     class Meta:
         constraints = (
