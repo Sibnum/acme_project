@@ -1,6 +1,5 @@
-from django.core.paginator import Paginator
 from django.views.generic import (
-    ListView, CreateView, DeleteView, DetailView, UpdateView
+    CreateView, DeleteView, DetailView, ListView, UpdateView
 )
 from django.urls import reverse_lazy
 
@@ -14,11 +13,6 @@ class BirthdayMixin:
     success_url = reverse_lazy('birthday:list')
 
 
-class BirthdayFormMixin:
-    form_class = BirthdayForm
-    template_name = 'birthday/birthday.html'
-
-
 class BirthdayDetailView(DetailView):
     model = Birthday
 
@@ -30,12 +24,12 @@ class BirthdayDetailView(DetailView):
         return context
 
 
-class BirthdayUpdateView(BirthdayMixin, BirthdayFormMixin, UpdateView):
-    pass
+class BirthdayUpdateView(BirthdayMixin, UpdateView):
+    form_class = BirthdayForm
 
 
-class BirthdayCreateView(BirthdayMixin, BirthdayFormMixin, CreateView):
-    pass
+class BirthdayCreateView(BirthdayMixin, CreateView):
+    form_class = BirthdayForm
 
 
 class BirthdayListView(ListView):
@@ -46,4 +40,3 @@ class BirthdayListView(ListView):
 
 class BirthdayDeleteView(BirthdayMixin, DeleteView):
     pass
-
