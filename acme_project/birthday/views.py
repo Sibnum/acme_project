@@ -21,6 +21,13 @@ class BirthdayFormMixin:
 class BirthdayDetailView(DetailView):
     model = Birthday
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['birthday_countdown'] = calculate_birthday_countdown(
+            self.object.birthday
+        )
+        return context
+
 
 class BirthdayUpdateView(BirthdayMixin, BirthdayFormMixin, UpdateView):
     pass
