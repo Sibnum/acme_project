@@ -8,7 +8,23 @@ from .models import Birthday
 from .forms import BirthdayForm
 
 
-class BirthdayMixin:
+class BirthdayListView(ListView):
+    model = Birthday
+    ordering = 'id'
+    paginate_by = 10
+
+
+class BirthdayCreateView(CreateView):
+    model = Birthday
+    form_class = BirthdayForm
+
+
+class BirthdayUpdateView(UpdateView):
+    model = Birthday
+    form_class = BirthdayForm
+
+
+class BirthdayDeleteView(DeleteView):
     model = Birthday
     success_url = reverse_lazy('birthday:list')
 
@@ -22,21 +38,3 @@ class BirthdayDetailView(DetailView):
             self.object.birthday
         )
         return context
-
-
-class BirthdayUpdateView(BirthdayMixin, UpdateView):
-    form_class = BirthdayForm
-
-
-class BirthdayCreateView(BirthdayMixin, CreateView):
-    form_class = BirthdayForm
-
-
-class BirthdayListView(ListView):
-    model = Birthday
-    ordering = 'id'
-    paginate_by = 10
-
-
-class BirthdayDeleteView(BirthdayMixin, DeleteView):
-    pass
