@@ -1,5 +1,7 @@
 from django.core.paginator import Paginator
-from django.views.generic import ListView, CreateView, DeleteView, UpdateView
+from django.views.generic import (
+    ListView, CreateView, DeleteView, DetailView, UpdateView
+)
 from django.urls import reverse_lazy
 
 from .models import Birthday
@@ -14,6 +16,10 @@ class BirthdayMixin:
 class BirthdayFormMixin:
     form_class = BirthdayForm
     template_name = 'birthday/birthday.html'
+
+
+class BirthdayDetailView(DetailView):
+    model = Birthday
 
 
 class BirthdayUpdateView(BirthdayMixin, BirthdayFormMixin, UpdateView):
