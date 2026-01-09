@@ -1,10 +1,17 @@
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render, redirect
-from django.views.generic import ListView
-
+from django.views.generic import ListView, CreateView, ListView
+from django.urls import reverse_lazy
 from .models import Birthday
 from .forms import BirthdayForm
 from .utils import calculate_birthday_countdown
+
+
+class BirthdayCreateView(CreateView):
+    model = Birthday
+    fields = '__all__'
+    template_name = 'birthday/birthday.html'
+    success_url = reverse_lazy('birthday:list')
 
 
 class BirthdayListView(ListView):
