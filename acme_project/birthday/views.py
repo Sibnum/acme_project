@@ -4,6 +4,7 @@ from django.views.generic import (
 )
 from django.urls import reverse_lazy
 
+from .utils import calculate_birthday_countdown
 from .models import Birthday
 from .forms import BirthdayForm
 
