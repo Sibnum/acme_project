@@ -45,3 +45,4 @@ class BirthdayListView(ListView):
 
 class BirthdayDeleteView(BirthdayMixin, DeleteView):
     pass
+
