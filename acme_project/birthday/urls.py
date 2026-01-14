@@ -14,4 +14,5 @@ urlpatterns = [
         views.BirthdayDeleteView.as_view(),
         name='delete'
     ),
+    path('login_only/', views.simple_view),
 ]
