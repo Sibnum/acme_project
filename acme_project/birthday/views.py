@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import (
     CreateView, DeleteView, DetailView, ListView, UpdateView
 )
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 
 from .utils import calculate_birthday_countdown
 from .models import Birthday, Congratulation
@@ -64,13 +64,31 @@ def simple_view(request):
     return HttpResponse('Страница для залогиненных пользователей!')
 
 
-@login_required
-def add_comment(request, pk):
-    birthday = get_object_or_404(Birthday, pk=pk)
-    form = CongratulationForm(request.POST)
-    if form.is_valid():
-        congratulation = form.save(commit=False)
-        congratulation.author = request.user
-        congratulation.birthday = birthday
-        congratulation.save()
-    return redirect('birthday:detail', pk=pk)
+# @login_required
+# def add_comment(request, pk):
+#     birthday = get_object_or_404(Birthday, pk=pk)
+#     form = CongratulationForm(request.POST)
+#     if form.is_valid():
+#         congratulation = form.save(commit=False)
+#         congratulation.author = request.user
+#         congratulation.birthday = birthday
+#         congratulation.save()
+#     return redirect('birthday:detail', pk=pk)
+
+
+class CongratulationCreateView(LoginRequiredMixin, CreateView):
+    birthday = None
+    model = Congratulation
+    form_class = CongratulationForm
+
+    def dispatch(self, request, *args, **kwargs):
+        self.birthday = get_object_or_404(Birthday, pk=kwargs['pk'])
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.birthday = self.birthday
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('birthday:detail', kwargs={'pk': self.birthday.pk})
