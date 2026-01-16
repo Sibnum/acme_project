@@ -53,8 +53,8 @@ class BirthdayDetailView(DetailView):
             self.object.birthday
         )
         context['form'] = CongratulationForm()
-        context['congratulation'] = (
-            self.object.congratulations.select_realted('author')
+        context['congratulations'] = (
+            self.object.congratulations.select_related('author')
         )
         return context
 
